@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SearchWidget(
               onSearch: (query) {
                 setState(() {
-                  searchQuery = query; // Update the search query when the user types.
+                  searchQuery = query; 
                 });
               },
             ),

@@ -1,5 +1,7 @@
 import 'package:bazaro_cs/src/core/style/color.dart';
+import 'package:bazaro_cs/src/features/auth/view/forgot_password/view/forgot_password_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
@@ -17,7 +19,9 @@ class ForgotPassword extends StatelessWidget {
           ),
           SizedBox(width: 5),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => ForgetPasswordPage());
+            },
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: Size(40, 20),

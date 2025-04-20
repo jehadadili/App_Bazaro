@@ -1,3 +1,4 @@
+import 'package:bazaro_cs/src/features/requst_admin/view/requst_admin_view.dart';
 import 'package:bazaro_cs/src/features/auth/controller/auth_crl.dart';
 import 'package:bazaro_cs/src/features/auth/view/login/widgets/email_field.dart';
 import 'package:bazaro_cs/src/features/auth/view/login/widgets/forgot_password.dart';
@@ -18,7 +19,7 @@ class LoginScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Color(0xff00091e),
           body: Form(
-            key: crl.loginFormKey,  // لا تستخدم نفس الـ GlobalKey
+            key: crl.loginFormKey, // لا تستخدم نفس الـ GlobalKey
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -42,11 +43,35 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: 20),
                     PasswordField(crl: crl), // حقل كلمة المرور
                     SizedBox(height: 5),
-                    const ForgotPassword(), // رابط "نسيت كلمة المرور"
+                     ForgotPassword(), // رابط "نسيت كلمة المرور"
                     SizedBox(height: 20),
                     LoginButton(crl: crl), // زر "تسجيل الدخول"
                     SizedBox(height: 20),
                     const SignUpLink(), // رابط "التسجيل"
+                    InkWell(
+                      onTap: () {
+                        Get.to(() => RequestAdminView());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.admin_panel_settings,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            "اطلب تحويل حسابك إلى أدمن",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -57,4 +82,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-

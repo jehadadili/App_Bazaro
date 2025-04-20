@@ -1,9 +1,7 @@
-
 import 'package:bazaro_cs/src/core/validator/validater.dart';
 import 'package:bazaro_cs/src/core/widgets/my_text_field.dart';
 import 'package:bazaro_cs/src/features/auth/controller/auth_crl.dart';
 import 'package:flutter/material.dart';
-
 
 class EmailField extends StatelessWidget {
   final AuthCrl crl;
@@ -18,7 +16,7 @@ class EmailField extends StatelessWidget {
         crl.setEmail(newVal);
       },
       validator: (email) {
-           return MyValidator.passwrdValidator(email);
+        return MyValidator.emalValidator(email);
       },
     );
   }

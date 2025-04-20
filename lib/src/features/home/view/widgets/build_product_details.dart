@@ -10,7 +10,7 @@ class BuildProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,33 +36,31 @@ class BuildProductDetails extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                '${item.quintity} JOD',
-                style: const TextStyle(
-                  color: AppColors.blackText,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(width: 4),
-              Text(
-                item.sellerName,
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-            ],
+          Text(
+            '${item.quintity} JOD',
+            style: const TextStyle(
+              color: AppColors.blackText,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
           const SizedBox(height: 8),
-       WhatsAppButton(
-  phoneNumber: item.whatsappNumber,
-  productTitle: item.title,
-  productPrice: item.quintity,
-  imageUrl: item.image,
-),
-
-
+          WhatsAppButton(
+            phoneNumber: item.whatsappNumber,
+            productTitle: item.title,
+            productPrice: item.quintity,
+            imageUrl: item.image,
+          ),
+          SizedBox(height: 8),
+          const SizedBox(width: 4),
+          Text(
+            item.sellerName,
+            style: const TextStyle(
+              color: Color.fromRGBO(158, 158, 158, 1),
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );

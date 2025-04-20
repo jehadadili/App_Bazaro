@@ -22,7 +22,11 @@ class _GreetingHeaderState extends State<GreetingHeader> {
   Future<void> getUsername() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      final doc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
       setState(() {
         username = doc.data()?['username'] ?? 'Admin';
       });

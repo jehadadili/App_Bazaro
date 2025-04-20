@@ -7,8 +7,8 @@ class BuildProductImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      height: 140,
+    return Container(
+      height: 180,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Color(0xFF2C3551),
@@ -24,7 +24,7 @@ class BuildProductImage extends StatelessWidget {
         ),
         child: Image.network(
           item.image,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
           width: double.infinity,
           height: double.infinity,
           errorBuilder:

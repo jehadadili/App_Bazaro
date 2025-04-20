@@ -39,7 +39,7 @@ class AdminView extends StatelessWidget {
                             ? const Center(
                               child: Text(
                                 "لا يوجد عناصر حالياً",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: AppColors.white),
                               ),
                             )
                             : ListView.builder(

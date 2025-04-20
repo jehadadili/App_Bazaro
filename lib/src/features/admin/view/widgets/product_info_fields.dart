@@ -34,7 +34,6 @@ class ProductInfoFields extends StatelessWidget {
           const _FieldTitle('السعر'),
           MyTextField(
             hintText: 'أدخل سعر المنتج',
-            prefixIcon: const Icon(Icons.attach_money, color: Colors.grey),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             onChanged: createCrl.setQuintity,
             validator: (_) => null,
@@ -48,19 +47,20 @@ class ProductInfoFields extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           const _FieldTitle('رقم الواتساب'),
-        MyTextField(
-  controller: whatsappController,
-  hintText: 'أدخل الرقم بدون 962',
-  keyboardType: TextInputType.phone,
-  prefixText: '+962 ',
-  onChanged: (value) {
-    // بشيل أي صفر من البداية (إذا المستخدم كتبه بالغلط)
-    final fullNumber = '962${value.replaceAll(RegExp(r'^0+'), '')}';
-    createCrl.setWhatsappNumber(fullNumber); // هي القيمة اللي بترفع على Firebase
-  },
-  validator: (_) => null,
-),
-
+          MyTextField(
+            controller: whatsappController,
+            hintText: 'أدخل الرقم بدون 962',
+            keyboardType: TextInputType.phone,
+            prefixText: '+962 ',
+            onChanged: (value) {
+              // بشيل أي صفر من البداية (إذا المستخدم كتبه بالغلط)
+              final fullNumber = '962${value.replaceAll(RegExp(r'^0+'), '')}';
+              createCrl.setWhatsappNumber(
+                fullNumber,
+              ); // هي القيمة اللي بترفع على Firebase
+            },
+            validator: (_) => null,
+          ),
         ],
       ),
     );
