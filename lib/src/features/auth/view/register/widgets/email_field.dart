@@ -16,7 +16,7 @@ class EmailField extends StatelessWidget {
         crl.setEmail(newVal);
       },
       validator: (email) {
-        return MyValidator.emalValidator(email);
+        return MyValidator.emailValidator(email);
       },
     );
   }

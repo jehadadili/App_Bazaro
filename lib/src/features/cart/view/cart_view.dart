@@ -1,54 +1,63 @@
+import 'package:bazaro_cs/src/core/style/color.dart';
 import 'package:bazaro_cs/src/features/cart/controller/cart_crl.dart';
 import 'package:bazaro_cs/src/features/cart/view/widgets/custom_body_design.dart';
 import 'package:bazaro_cs/src/features/cart/view/widgets/my_container.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Get.find<CartCrl>().fetchOrders(),
-      builder: (context, snapshot) {
-        return GetBuilder<CartCrl>(
-          init: CartCrl(),
-          builder: (crl) {
-            return Scaffold(
-           
-              body: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: crl.orederitem.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MyContainer(
-                            image: crl.orederitem[index].image,
-                            titel: crl.orederitem[index].title,
-                            pries: crl.orederitem[index].quintity,
-                            orderTime: crl.orederitem[index].orderTime,
-                            orderData: crl.orederitem[index].orderData,
-                            onPressed: () {
-                              crl.deleteItem(crl.orederitem[index].id);
-                            },
-                          ),
-                        );
-                      },
+    return GetBuilder<CartCrl>(
+      init: CartCrl()..fetchOrders(), // مباشرة نجيب الأوردرز هنا
+      builder: (crl) {
+        return Scaffold(
+          backgroundColor: const Color(0xff00091e),
+          appBar: AppBar(
+            backgroundColor: const Color(0xff00091e),
+            iconTheme: IconThemeData(color: AppColors.white),
+            elevation: 0,
+          ),
+          body: crl.isLoading
+              ? const Center(child: CircularProgressIndicator()) // لو في تحميل
+              : Column(
+                  children: [
+                    Expanded(
+                      child: crl.orederitem.isEmpty
+                          ? const Center(
+                              child: Text(
+                                'لا يوجد منتجات في السلة',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: crl.orederitem.length,
+                              itemBuilder: (context, index) {
+                                final item = crl.orederitem[index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MyContainer(
+                                    image: item.image,
+                                    titel: item.title,
+                                    pries: item.quintity,
+                                    orderTime: item.orderTime,
+                                    orderData: item.orderData,
+                                    onPressed: () async {
+                                      await crl.deleteItem(item.id);
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CustomBodyDesign(),
-                  )
-                ],
-              ),
-            );
-          },
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CustomBodyDesign(),
+                    ),
+                  ],
+                ),
         );
       },
     );

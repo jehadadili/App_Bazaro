@@ -18,7 +18,7 @@ class EmailInputWidget extends StatelessWidget {
         onChanged: onChanged,
         hintText: "Email Address",
         validator: (value) {
-          return MyValidator.emalValidator(value);
+          return MyValidator.emailValidator(value);
         },
       ),
     );

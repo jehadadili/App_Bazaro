@@ -1,111 +1,122 @@
 import 'package:bazaro_cs/src/core/widgets/submit_button.dart';
+import 'package:bazaro_cs/src/features/cart/controller/cart_crl.dart';
+import 'package:bazaro_cs/src/features/admin/model/item_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomBodyDesign extends StatelessWidget {
   const CustomBodyDesign({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    // Use GetBuilder to access the cart controller and rebuild when it changes
+    return GetBuilder<CartCrl>(
+      builder: (controller) {
+        // Calculate the subtotal
+        double subtotal = 0;
+        for (ItemsModel item in controller.orederitem) {
+          // Convert quintity to double, assuming it contains a number as string
+          try {
+            subtotal += double.parse(item.quintity);
+          } catch (e) {
+            // Handle the case where quintity isn't a valid number
+            print("Error parsing quintity: ${item.quintity}");
+          }
+        }
+
+        // Get the number of items in cart
+        int itemCount = controller.orederitem.length;
+
+        // Calculate the total (just the subtotal for now)
+        double total = subtotal;
+
+        return Column(
           children: [
-            Text(
-              "Order Subtotal",
-              style: TextStyle(
-                fontSize:  20,
-                fontWeight: FontWeight.w400,
-              ),
+            Row(
+              children: [
+                const Text(
+                  "المجموع الفرعي",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  "JOD ${subtotal.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-            const Spacer(),
-            Text(
-              "\$42.97",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w400,
-              ),
+            Row(
+              children: [
+                const Text(
+                  "عدد المنتجات",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  "$itemCount",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(thickness: 2, height: 37, color: Color(0xffC7C7C7)),
+            Row(
+              children: [
+                const Text(
+                  "المجموع الكلي",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  "JOD ${total.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            SubmitButton(
+              text: "إتمام الدفع",
+              onPressed: () {
+                if (controller.orederitem.isEmpty) {
+                  Get.snackbar(
+                    'سلة فارغة',
+                    'سلتك فارغة. أضف منتجات قبل إتمام الدفع.',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red,
+                    colorText: Colors.white,
+                  );
+                  return;
+                }
+
+             
+              },
             ),
           ],
-        ),
-        Row(
-          children: [
-            Text(
-              "Discount",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              "\$0",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Text(
-              "Shipping",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              "\$8",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
-        const Divider(
-          thickness: 2,
-          height: 37,
-          color: Color(0xffC7C7C7),
-        ),
-        Row(
-          children: [
-            Text(
-              "Total",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              "\$50.97",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        SubmitButton(
-          text: "Complete Payment",
-          onPressed: () {
-            // showModalBottomSheet(
-            //   context: context,
-            //   shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(16)),
-            //   builder: (context) {
-            //     return const PaymentMethodsBootomSheet();
-            //   },
-            // );
-          },
-        )
-      ],
+        );
+      },
     );
   }
 }

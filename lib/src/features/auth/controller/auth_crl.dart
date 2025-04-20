@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:bazaro_cs/src/core/utils/app_strings.dart';
 import 'package:bazaro_cs/src/core/utils/my_aleart_dialog.dart';
+import 'package:bazaro_cs/src/features/admin/view/admin_view.dart';
 import 'package:bazaro_cs/src/features/auth/model/user_model.dart';
+import 'package:bazaro_cs/src/features/auth/view/login/screen/login_screen.dart';
+import 'package:bazaro_cs/src/features/home/view/home_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +82,7 @@ class AuthCrl extends GetxController {
   }
 
   // دالة التسجيل
+  // دالة التسجيل
   Future<void> signUp(BuildContext context) async {
     FocusScope.of(context).unfocus();
     signupFormKey.currentState!.save();
@@ -112,10 +116,14 @@ class AuthCrl extends GetxController {
 
               ref.set(userModel.toMap()).then((val) {
                 log('OK');
-              });
 
+                // توجيه المستخدم إلى صفحة تسجيل الدخول بعد نجاح التسجيل
+                clearData(); // مسح البيانات أولاً
+                Get.off(
+                  () => LoginScreen(),
+                ); // استخدام Get.off للانتقال إلى صفحة الدخول
+              });
               setIsLoading(false);
-              Navigator.pop(context);
             });
       }
     } on FirebaseAuthException catch (e) {
@@ -137,6 +145,7 @@ class AuthCrl extends GetxController {
     }
   }
 
+  // دالة تسجيل الدخول
   // دالة تسجيل الدخول
   Future<void> logIn(BuildContext context) async {
     FocusScope.of(context).unfocus();
@@ -178,6 +187,13 @@ class AuthCrl extends GetxController {
                 userModel = UserModel.fromJson(userData);
                 userModel.id = userCedential.user!.uid;
                 update();
+
+                // التحقق إذا كان المستخدم مسؤول أم لا وتوجيهه إلى الصفحة المناسبة
+                if (userModel.isAdmin) {
+                  Get.offAll(() => const AdminView());
+                } else {
+                  Get.offAll(() => HomeScreen());
+                }
               }
 
               setIsLoading(false);

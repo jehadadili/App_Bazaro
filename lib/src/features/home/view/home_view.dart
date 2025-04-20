@@ -14,8 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeCrl homeCrl = Get.put(HomeCrl());
-  String searchQuery = ''; // Add this line to store the search query.
-
+  String searchQuery = ''; 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
             SearchWidget(
               onSearch: (query) {
                 setState(() {
-                  searchQuery = query; 
+                  searchQuery =
+                      query; 
                 });
               },
             ),
-            ProductGridWidget(controller: homeCrl, searchQuery: searchQuery), // Pass the search query to the ProductGridWidget
+            ProductGridWidget(
+              controller: homeCrl,
+              searchQuery: searchQuery,
+            ), 
           ],
         ),
       ),

@@ -17,7 +17,7 @@ class ConfirmPasswordField extends StatelessWidget {
         crl.setCPassword(newVal);
       },
       validator: (password) {
-        return MyValidator.passwrdValidator(password);
+        return MyValidator.passwordValidator(password);
       },
 
       onTapSuffixIcon: () {

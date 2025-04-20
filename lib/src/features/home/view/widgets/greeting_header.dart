@@ -1,7 +1,10 @@
+import 'package:bazaro_cs/src/features/cart/view/cart_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bazaro_cs/src/core/style/color.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
 
 class GreetingHeader extends StatefulWidget {
   const GreetingHeader({super.key});
@@ -48,9 +51,22 @@ class _GreetingHeaderState extends State<GreetingHeader> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          IconButton(
-            onPressed: () => FirebaseAuth.instance.signOut(),
-            icon: const Icon(Icons.logout, color: AppColors.background),
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Get.to(() => CartView());
+                },
+                icon: const Icon(
+                  Icons.card_travel,
+                  color: AppColors.background,
+                ),
+              ),
+              IconButton(
+                onPressed: () => FirebaseAuth.instance.signOut(),
+                icon: const Icon(Icons.logout, color: AppColors.background),
+              ),
+            ],
           ),
         ],
       ),

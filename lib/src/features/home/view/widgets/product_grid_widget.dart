@@ -1,7 +1,9 @@
 import 'package:bazaro_cs/src/features/admin/model/item_model.dart';
+import 'package:bazaro_cs/src/features/details/view/details_view.dart';
 import 'package:bazaro_cs/src/features/home/controller/home_crl.dart';
 import 'package:bazaro_cs/src/features/home/view/widgets/product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductGridWidget extends StatelessWidget {
   final HomeCrl controller;
@@ -64,8 +66,16 @@ class ProductGridWidget extends StatelessWidget {
               crossAxisSpacing: 10,
             ),
             itemCount: filteredItems.length, // Use filteredItems.length
-            itemBuilder:
-                (context, index) => ProductCard(item: filteredItems[index]),
+            itemBuilder: (context, index) {
+              final item = filteredItems[index]; // ✅ هنا عرّفت item
+
+              return GestureDetector(
+                onTap: () {
+                  Get.to(() => DetailsView(itemsModel: item));
+                },
+                child: ProductCard(item: filteredItems[index]),
+              );
+            },
           );
         },
       ),

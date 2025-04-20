@@ -1,3 +1,4 @@
+import 'package:bazaro_cs/src/core/validator/validater.dart';
 import 'package:bazaro_cs/src/core/widgets/my_text_field.dart';
 import 'package:bazaro_cs/src/features/auth/controller/auth_crl.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,8 @@ class PasswordField extends StatelessWidget {
       onChanged: (newVal) {
         crl.setPassword(newVal);
       },
-      validator: (value) {
-        if (value == null || value.length < 8) {
-          return 'Password must be at least 8 characters';
-        }
-        return null;
+      validator: (password) {
+          return MyValidator.passwordValidator(password);
       },
     );
   }
