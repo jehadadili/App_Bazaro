@@ -3,12 +3,12 @@ import 'package:bazaro_cs/src/core/widgets/submit_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class CustomDesignDetails extends StatelessWidget {
+class CustomDesignDetails extends StatefulWidget {
   final String image;
   final String description;
   final String title;
   final String quintity;
-  final void Function() onPressed;
+  final Function(int quantity) onAddToCart;
 
   const CustomDesignDetails({
     super.key,
@@ -16,8 +16,42 @@ class CustomDesignDetails extends StatelessWidget {
     required this.title,
     required this.description,
     required this.quintity,
-   required this.onPressed,
+    required this.onAddToCart,
   });
+
+  @override
+  State<CustomDesignDetails> createState() => _CustomDesignDetailsState();
+}
+
+class _CustomDesignDetailsState extends State<CustomDesignDetails> {
+  int quantity = 1; // Start with quantity 1
+  late double itemPrice; // Price per unit
+
+  @override
+  void initState() {
+    super.initState();
+    // Parse the price from quintity
+    itemPrice = double.tryParse(widget.quintity) ?? 0.0;
+  }
+
+  // Calculate total price
+  double get totalPrice => itemPrice * quantity;
+
+  // Increase quantity
+  void incrementQuantity() {
+    setState(() {
+      quantity++;
+    });
+  }
+
+  // Decrease quantity but not below 1
+  void decrementQuantity() {
+    if (quantity > 1) {
+      setState(() {
+        quantity--;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +61,7 @@ class CustomDesignDetails extends StatelessWidget {
           Center(
             child: CachedNetworkImage(
               fit: BoxFit.fill,
-              imageUrl: image,
+              imageUrl: widget.image,
               width: MediaQuery.of(context).size.width,
               height: 300,
               placeholder: (context, url) => const CircularProgressIndicator(),
@@ -47,7 +81,7 @@ class CustomDesignDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    widget.title,
                     style: TextStyle(
                       color: AppColors.primaryDark,
                       fontSize: 30,
@@ -63,9 +97,8 @@ class CustomDesignDetails extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   Text(
-                    description,
+                    widget.description,
                     style: TextStyle(
                       color: AppColors.greyText,
                       fontSize: 15,
@@ -87,7 +120,7 @@ class CustomDesignDetails extends StatelessWidget {
                       SizedBox(width: 120),
                       Expanded(
                         child: Text(
-                          "$quintity JOD", // Display total price
+                          "${totalPrice.toStringAsFixed(2)} JOD", // Display total price
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -99,23 +132,28 @@ class CustomDesignDetails extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: decrementQuantity,
                         icon: const Icon(Icons.remove),
                       ),
                       Text(
-                        '0',
+                        quantity.toString(),
                         style: TextStyle(
                           color: AppColors.primaryDark,
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+                      IconButton(
+                        onPressed: incrementQuantity, 
+                        icon: const Icon(Icons.add)
+                      ),
                     ],
                   ),
                   SizedBox(height: 20),
-
-                  SubmitButton(text: "Add Cart", onPressed: onPressed),
+                  SubmitButton(
+                    text: "Add to Cart", 
+                    onPressed: () => widget.onAddToCart(quantity),
+                  ),
                 ],
               ),
             ),

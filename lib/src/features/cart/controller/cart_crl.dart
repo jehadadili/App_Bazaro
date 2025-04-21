@@ -44,6 +44,47 @@ class CartCrl extends GetxController {
     return orederitem;
   }
 
+  // Update item quantity in Firestore and local list
+  Future<void> updateItemQuantity(String itemId, int newQuantity) async {
+    try {
+      isLoading = true;
+      update();
+
+      // Find the local item first
+      int itemIndex = orederitem.indexWhere((item) => item.id == itemId);
+      if (itemIndex != -1) {
+        // Update local item
+        orederitem[itemIndex].quantity = newQuantity;
+        
+        // Find the document in Firestore
+        QuerySnapshot<Map<String, dynamic>> querySnapshot =
+            await FirebaseFirestore.instance
+                .collection(AppStrings.orders)
+                .where('id', isEqualTo: itemId)
+                .get();
+
+        if (querySnapshot.docs.isNotEmpty) {
+          // Update in Firestore
+          for (var doc in querySnapshot.docs) {
+            await doc.reference.update({'quantity': newQuantity});
+          }
+        }
+      }
+    } catch (e) {
+      log("Error updating quantity: $e");
+      Get.snackbar(
+        'خطأ',
+        'فشل في تحديث الكمية: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
   Future<void> deleteItem(String orderId) async {
     try {
       isLoading = true;
@@ -96,6 +137,20 @@ class CartCrl extends GetxController {
       isLoading = false;
       update();
     }
+  }
+
+  // Get total price of all items in cart
+  double getTotalPrice() {
+    double total = 0.0;
+    for (var item in orederitem) {
+      try {
+        double price = double.parse(item.quintity);
+        total += price * item.quantity;
+      } catch (e) {
+        log("Error parsing price: ${item.quintity}");
+      }
+    }
+    return total;
   }
 
   // Add a method to clear cart if user logs out

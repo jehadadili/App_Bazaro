@@ -15,7 +15,7 @@ class RequestAdminController extends GetxController {
 
   // توكن جهاز الأدمن
   final String adminDeviceToken =
-      'e-tiF7N5QwOHzZdWy0YLoF:APA91bETAehxx3_al_eNcdr-DSrWuqW9DBk48Eib_U5az6mxBRFiAae6t7rw6B4dX8LoeqypPr1DmP2YI2el86s-pHpKZvDlHKmYxf4sperDXyXewSTawzQ';
+      'eNcvsdc7RPi3AQx7s3MRPL:APA91bGMh76bOu1NLSPjgOBAs-lBjB65Vst-gMQZL06K9b76J6Z7SllLYrlTqnggpej_n5L_k0_1B5cow8nJjnc2wwiqpiFQQ5C2P-RTTazDbW12EExUuf0';
 
   Future<void> requestAdmin({
     required String userName,

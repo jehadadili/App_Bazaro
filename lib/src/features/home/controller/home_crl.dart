@@ -83,6 +83,15 @@ class HomeCrl extends GetxController {
       Get.find<CartCrl>().update();
 
       Navigator.pop(context);
+
+      // Show success message
+      Get.snackbar(
+        'تم الإضافة',
+        'تمت إضافة ${itemsModel.quantity} قطعة من ${itemsModel.title} إلى السلة',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
     } catch (e) {
       log("خطأ في إضافة الطلب: $e");
       Get.snackbar(

@@ -3,7 +3,7 @@ import 'package:bazaro_cs/src/features/cart/controller/cart_crl.dart';
 import 'package:bazaro_cs/src/features/cart/view/widgets/custom_body_design.dart';
 import 'package:bazaro_cs/src/features/cart/view/widgets/my_container.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
@@ -19,6 +19,11 @@ class CartView extends StatelessWidget {
             backgroundColor: const Color(0xff00091e),
             iconTheme: IconThemeData(color: AppColors.white),
             elevation: 0,
+            title: Text(
+              "سلة المشتريات",
+              style: TextStyle(color: AppColors.white),
+            ),
+            centerTitle: true,
           ),
           body: crl.isLoading
               ? const Center(child: CircularProgressIndicator()) // لو في تحميل
@@ -44,6 +49,11 @@ class CartView extends StatelessWidget {
                                     pries: item.quintity,
                                     orderTime: item.orderTime,
                                     orderData: item.orderData,
+                                    item: item,
+                                    onQuantityChanged: (newQuantity) {
+                                      // Update quantity in database
+                                      crl.updateItemQuantity(item.id, newQuantity);
+                                    },
                                     onPressed: () async {
                                       await crl.deleteItem(item.id);
                                     },

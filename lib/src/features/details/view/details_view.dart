@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 class DetailsView extends StatelessWidget {
   const DetailsView({super.key, required this.itemsModel});
   final ItemsModel itemsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +41,23 @@ class DetailsView extends StatelessWidget {
               image: itemsModel.image,
               description: itemsModel.description,
               quintity: itemsModel.quintity,
-              onPressed: () {
-                crl.orderItem(context, itemsModel);
+              onAddToCart: (quantity) {
+                // Create a copy of the item with the selected quantity
+                ItemsModel itemToAdd = ItemsModel(
+                  id: itemsModel.id,
+                  title: itemsModel.title,
+                  description: itemsModel.description,
+                  image: itemsModel.image,
+                  quintity: itemsModel.quintity,
+                  quantity: quantity,
+                  userId: '',
+                  orderTime: '',
+                  orderData: '',
+                  type: '', // Set the quantity
+                );
+
+                // Add to cart
+                crl.orderItem(context, itemToAdd);
               },
             );
           },

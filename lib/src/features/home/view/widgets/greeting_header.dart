@@ -1,3 +1,4 @@
+import 'package:bazaro_cs/src/features/auth/view/login/screen/login_screen.dart';
 import 'package:bazaro_cs/src/features/cart/view/cart_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,10 +63,14 @@ class _GreetingHeaderState extends State<GreetingHeader> {
                   color: AppColors.background,
                 ),
               ),
-              IconButton(
-                onPressed: () => FirebaseAuth.instance.signOut(),
-                icon: const Icon(Icons.logout, color: AppColors.background),
-              ),
+             IconButton(
+  onPressed: () async {
+    await FirebaseAuth.instance.signOut();
+    // فرض الانتقال إلى شاشة تسجيل الدخول بعد تسجيل الخروج
+    Get.offAll(() => const LoginScreen());
+  },
+  icon: const Icon(Icons.logout, color: AppColors.background),
+),
             ],
           ),
         ],
