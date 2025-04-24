@@ -1,5 +1,6 @@
 import 'package:bazaro_cs/src/core/widgets/submit_button.dart';
 import 'package:bazaro_cs/src/features/cart/controller/cart_crl.dart';
+import 'package:bazaro_cs/src/features/cart/view/widgets/payment_methods_bootom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -119,16 +120,17 @@ class CustomBodyDesign extends StatelessWidget {
                     backgroundColor: Colors.red,
                     colorText: Colors.white,
                   );
-                  return;
+                } else {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    builder: (context) {
+                      return const PaymentMethodsBootomSheet();
+                    },
+                  );
                 }
-                // Handle checkout process
-                Get.snackbar(
-                  'تم إتمام الطلب',
-                  'سيتم التواصل معك قريباً',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.green,
-                  colorText: Colors.white,
-                );
               },
             ),
           ],
