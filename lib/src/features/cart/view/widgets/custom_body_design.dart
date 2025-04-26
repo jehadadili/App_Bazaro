@@ -9,16 +9,13 @@ class CustomBodyDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use GetBuilder to access the cart controller and rebuild when it changes
     return GetBuilder<CartCrl>(
       builder: (controller) {
-        // Get the total quantity of all items
         int totalQuantity = 0;
         for (var item in controller.orederitem) {
           totalQuantity += item.quantity;
         }
 
-        // Get the total price
         double totalPrice = controller.getTotalPrice();
 
         return Column(

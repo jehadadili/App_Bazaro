@@ -143,7 +143,6 @@ class _MyContainerState extends State<MyContainer> {
                     ),
                   ),
                   SizedBox(height: 5),
-                  // Order date and time
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -170,8 +169,6 @@ class _MyContainerState extends State<MyContainer> {
                       ),
                     ],
                   ),
-
-                  // Delete button
                 ],
               ),
             ),

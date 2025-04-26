@@ -1,7 +1,10 @@
 import 'package:bazaro_cs/src/core/style/color.dart';
+import 'package:bazaro_cs/src/features/auth/controller/auth_crl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class CustomDesign extends StatefulWidget {
   const CustomDesign({super.key});
@@ -23,31 +26,33 @@ class _CustomDesignState extends State<CustomDesign> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      final doc =
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .get();
+      try {
+        final doc =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .get();
 
-      if (doc.exists) {
+        if (!mounted) return; // تأكد أن الودجت مازال حي قبل setState
+
         setState(() {
           username = doc.data()?['username'] ?? 'Admin';
         });
-      } else {
-        setState(() {
-          username = 'Admin';
-        });
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            username = 'Admin';
+          });
+        }
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Get screen width and height using MediaQuery
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // Use LayoutBuilder for responsive layout based on screen width
     return Padding(
       padding: const EdgeInsets.only(left: 20),
       child: Column(
@@ -60,38 +65,28 @@ class _CustomDesignState extends State<CustomDesign> {
                 "Hi ${username ?? ''}!",
                 style: TextStyle(
                   color: AppColors.background,
-                  fontSize:
-                      screenWidth > 600
-                          ? 30
-                          : 25, // Adjust font size based on screen width
+                  fontSize: screenWidth > 600 ? 30 : 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               IconButton(
                 onPressed: () {
-                  FirebaseAuth.instance.signOut();
+                  Get.find<AuthCrl>().signOut();
                 },
                 icon: const Icon(Icons.logout, color: AppColors.background),
               ),
             ],
           ),
-          SizedBox(
-            height: screenHeight * 0.01,
-          ), // Adjust vertical spacing based on screen height
+          SizedBox(height: screenHeight * 0.01),
           Text(
             "Welcome back to your panel.",
             style: TextStyle(
               color: AppColors.background,
-              fontSize:
-                  screenWidth > 600
-                      ? 25
-                      : 20, // Adjust font size for larger screens
+              fontSize: screenWidth > 600 ? 25 : 20,
               fontWeight: FontWeight.w400,
             ),
           ),
-          SizedBox(
-            height: screenHeight * 0.05,
-          ), // Adjust vertical spacing for responsiveness
+          SizedBox(height: screenHeight * 0.05),
           const Center(
             child: Text(
               "List Item",

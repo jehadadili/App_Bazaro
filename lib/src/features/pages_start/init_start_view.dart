@@ -20,7 +20,6 @@ class InitStartView extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapShot) {
         return GetBuilder<AuthCrl>(
-          init: AuthCrl(),
           builder: (authCrl) {
             switch (snapShot.connectionState) {
               case ConnectionState.waiting:

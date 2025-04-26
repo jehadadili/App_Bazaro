@@ -248,4 +248,14 @@ class AuthCrl extends GetxController {
     }
     return false;
   }
+
+  Future<void> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      clearData(); // تمسح بيانات المستخدم
+      Get.offAll(() => const LoginScreen()); // يرجع على صفحة تسجيل الدخول
+    } catch (e) {
+      print('Error signing out: $e');
+    }
+  }
 }
