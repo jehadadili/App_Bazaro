@@ -48,13 +48,10 @@ class AdminCrl extends GetxController {
         String imageUrl = doc['image'];
         String fileName = imageUrl.split('/').last;
 
-        // حذف من Supabase
         await Supabase.instance.client.storage.from('market').remove([fileName]);
 
-        // حذف من Firestore
         await docRef.delete();
 
-        // حذف من القائمة المحلية
         itemsList.removeWhere((item) => item.id == itemId);
         update();
       }

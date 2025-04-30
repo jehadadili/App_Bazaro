@@ -16,15 +16,24 @@ class AdminCreateCrl extends GetxController {
     id: '',
     title: '',
     description: '',
-    quintity: '',
+    quintity: '', // Note: Field name is quintity in model
     image: '',
     userId: '',
     orderTime: '',
     orderData: '',
-    type: '',
+    type: '', // Category field
     sellerName: '',
     whatsappNumber: '',
   );
+
+  // Getter for the current type (category)
+  String get type => itemsModel.type;
+  String get title => itemsModel.title;
+  String get description => itemsModel.description;
+  String get quintity => itemsModel.quintity;
+  String get sellerName => itemsModel.sellerName;
+  String get whatsappNumber => itemsModel.whatsappNumber;
+
 
   void setTitle(String newVal) {
     itemsModel.title = newVal;
@@ -38,6 +47,13 @@ class AdminCreateCrl extends GetxController {
 
   void setQuintity(String newVal) {
     itemsModel.quintity = newVal;
+    update();
+  }
+
+  // Add setType method to update the category
+  void setType(String newVal) {
+    itemsModel.type = newVal;
+    log('Category set to: ${itemsModel.type}'); // Log for debugging
     update();
   }
 
@@ -76,6 +92,10 @@ class AdminCreateCrl extends GetxController {
 
   // دالة لرفع الصورة إلى Supabase Storage
   Future<String> uploadImage() async {
+    // Check if an image was selected
+    if (itemImage.path.isEmpty) {
+       throw Exception('الرجاء اختيار صورة للمنتج');
+    }
     try {
       String fileName = 'image_${DateTime.now().millisecondsSinceEpoch}.jpg';
 
@@ -97,6 +117,18 @@ class AdminCreateCrl extends GetxController {
 
   // دالة لإضافة العنصر إلى Firestore
   Future addItem(context) async {
+    // Basic validation
+    if (itemsModel.title.isEmpty || itemsModel.quintity.isEmpty || itemsModel.type.isEmpty || itemImage.path.isEmpty || itemsModel.sellerName.isEmpty || itemsModel.whatsappNumber.isEmpty) {
+        Get.snackbar(
+            'نقص في المعلومات',
+            'الرجاء تعبئة جميع الحقول واختيار صورة وقسم للمنتج.',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.orange,
+            colorText: Colors.white,
+        );
+        return; // Stop execution if validation fails
+    }
+
     setIsLoading(true);
 
     try {
@@ -138,6 +170,9 @@ class AdminCreateCrl extends GetxController {
 
       itemsModel.id = ref.id;
 
+      // Log the data being saved
+      log('Saving item data: ${itemsModel.toMap()}');
+
       // حفظ بيانات العنصر في Firestore
       await ref.set(itemsModel.toMap());
 
@@ -150,6 +185,15 @@ class AdminCreateCrl extends GetxController {
 
       // العودة إلى الصفحة السابقة
       Navigator.pop(context);
+
+      Get.snackbar(
+        'نجاح',
+        'تم إضافة المنتج بنجاح.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+
     } catch (e) {
       log('Error adding item: $e');
       // عرض رسالة خطأ للمستخدم
@@ -176,7 +220,7 @@ class AdminCreateCrl extends GetxController {
       orderTime: '',
       userId: '',
       orderData: '',
-      type: '',
+      type: '', // Reset type
       sellerName: '',
       whatsappNumber: '',
     );
@@ -185,3 +229,4 @@ class AdminCreateCrl extends GetxController {
     update();
   }
 }
+

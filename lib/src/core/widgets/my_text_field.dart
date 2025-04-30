@@ -8,6 +8,7 @@ class MyTextField extends StatelessWidget {
   final double? height;
   final IconData? suffixIcon;
   final Widget? prefixIcon;
+  final String? initialValue;
 
   final void Function()? onTapSuffixIcon;
   final TextEditingController? controller;
@@ -29,6 +30,7 @@ class MyTextField extends StatelessWidget {
     this.prefixIcon,
     this.prefixText,
     this.controller,
+    this.initialValue,
   });
 
   @override
@@ -42,6 +44,7 @@ class MyTextField extends StatelessWidget {
         color: AppColors.white,
       ),
       child: TextFormField(
+        initialValue: initialValue,
         keyboardType: keyboardType,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         controller: controller,
