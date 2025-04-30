@@ -1,3 +1,4 @@
+import 'package:bazaro_cs/src/core/style/color.dart';
 import 'package:flutter/material.dart';
 
 class AdminCategorySelector extends StatelessWidget {
@@ -27,10 +28,7 @@ class AdminCategorySelector extends StatelessWidget {
         const SizedBox(height: 8),
         Container(
           height: 50,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(10),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: categories.length,
@@ -50,14 +48,11 @@ class AdminCategorySelector extends StatelessWidget {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color:
-                        isSelected
-                            ? Colors.deepPurpleAccent
-                            : Colors.transparent,
+                    color: isSelected ? AppColors.primary : AppColors.greyText,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
                       color:
-                          isSelected ? Colors.deepPurpleAccent : Colors.white30,
+                          isSelected ? AppColors.primary : AppColors.greyText,
                       width: 1,
                     ),
                   ),
@@ -65,7 +60,7 @@ class AdminCategorySelector extends StatelessWidget {
                     child: Text(
                       category,
                       style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.white70,
+                        color: isSelected ? AppColors.white : AppColors.black,
                         fontWeight:
                             isSelected ? FontWeight.bold : FontWeight.normal,
                       ),
