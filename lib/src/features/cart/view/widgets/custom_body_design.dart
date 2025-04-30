@@ -1,6 +1,6 @@
 import 'package:bazaro_cs/src/core/widgets/submit_button.dart';
 import 'package:bazaro_cs/src/features/cart/controller/cart_crl.dart';
-import 'package:bazaro_cs/src/features/cart/view/widgets/payment_methods_bootom_sheet.dart';
+import 'package:bazaro_cs/src/features/payment_details/view/payment_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -118,14 +118,13 @@ class CustomBodyDesign extends StatelessWidget {
                     colorText: Colors.white,
                   );
                 } else {
-                  showModalBottomSheet(
-                    context: context,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const PaymentDetailsView();
+                      },
                     ),
-                    builder: (context) {
-                      return const PaymentMethodsBootomSheet();
-                    },
                   );
                 }
               },
