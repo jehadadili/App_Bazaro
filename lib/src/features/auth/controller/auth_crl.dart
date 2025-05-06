@@ -90,14 +90,14 @@ class AuthCrl extends GetxController {
 
     try {
       if (!userModel.email.isEmail) {
-        myAleartDialog(context, text: 'Please enter a valid email');
+        myAlertDialog(text: 'Please enter a valid email');
       } else if (userModel.username.isEmpty) {
-        myAleartDialog(context, text: 'Please enter your name');
+        myAlertDialog(text: 'Please enter your name');
       } else if (userModel.password.length <= 6 &&
           userModel.cpassword.length <= 6) {
-        myAleartDialog(context, text: 'Password must be 6 characters at least');
+        myAlertDialog(text: 'Password must be 6 characters at least');
       } else if (userModel.password != userModel.cpassword) {
-        myAleartDialog(context, text: 'Passwords do not match');
+        myAlertDialog(text: 'Passwords do not match');
       } else if (isValid) {
         setIsLoading(true);
         await FirebaseAuth.instance
@@ -131,14 +131,11 @@ class AuthCrl extends GetxController {
       log(e.toString());
 
       if (e.code == 'weak-password') {
-        myAleartDialog(context, text: 'The password provided is too weak.');
+        myAlertDialog(text: 'The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        myAleartDialog(
-          context,
-          text: 'The account already exists for that email.',
-        );
+        myAlertDialog(text: 'The account already exists for that email.');
       } else if (e.code == 'invalid-email') {
-        myAleartDialog(context, text: 'The email address is badly formatted.');
+        myAlertDialog(text: 'The email address is badly formatted.');
       } else {
         log(e.toString());
       }
@@ -154,12 +151,9 @@ class AuthCrl extends GetxController {
 
     try {
       if (!userModel.email.isEmail) {
-        myAleartDialog(context, text: 'Please enter a valid email');
+        myAlertDialog(text: 'Please enter a valid email');
       } else if (userModel.password.length <= 6) {
-        myAleartDialog(
-          context,
-          text: 'Passwords must be 6 characters at least',
-        );
+        myAlertDialog(text: 'Passwords must be 6 characters at least');
       } else if (isValid) {
         setIsLoading(true);
 
@@ -200,19 +194,16 @@ class AuthCrl extends GetxController {
             });
       }
     } on FirebaseAuthException catch (e) {
-      myAleartDialog(context, text: e.toString());
+      myAlertDialog(text: e.toString());
       setIsLoading(false);
       log(e.toString());
 
       if (e.code == 'weak-password') {
-        myAleartDialog(context, text: 'The password provided is too weak.');
+        myAlertDialog(text: 'The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        myAleartDialog(
-          context,
-          text: 'The account already exists for that email.',
-        );
+        myAlertDialog(text: 'The account already exists for that email.');
       } else if (e.code == 'invalid-email') {
-        myAleartDialog(context, text: 'The email address is badly formatted.');
+        myAlertDialog(text: 'The email address is badly formatted.');
       } else {
         log(e.toString());
       }
@@ -227,7 +218,7 @@ class AuthCrl extends GetxController {
 
     try {
       if (!userModel.email.isEmail) {
-        myAleartDialog(context, text: 'Please enter a valid email');
+        myAlertDialog(text: 'Please enter a valid email');
         return false;
       } else if (isValid) {
         setIsLoading(true);
@@ -236,13 +227,13 @@ class AuthCrl extends GetxController {
             .sendPasswordResetEmail(email: userModel.email)
             .then((_) {
               setIsLoading(false);
-              Navigator.pop(context);
+              Get.back();
             });
         return true;
       }
     } on FirebaseAuthException catch (e) {
       setIsLoading(false);
-      myAleartDialog(context, text: e.message ?? 'An error occurred.');
+      myAlertDialog(text: e.message ?? 'An error occurred.');
       log(e.toString());
       return false;
     }
@@ -255,7 +246,7 @@ class AuthCrl extends GetxController {
       clearData(); // تمسح بيانات المستخدم
       Get.offAll(() => const LoginScreen()); // يرجع على صفحة تسجيل الدخول
     } catch (e) {
-      print('Error signing out: $e');
+      log('Error signing out: $e');
     }
   }
 }

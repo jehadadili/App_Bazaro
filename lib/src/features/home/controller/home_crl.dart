@@ -82,7 +82,7 @@ class HomeCrl extends GetxController {
       Get.find<CartCrl>().orederitem.add(itemsModel);
       Get.find<CartCrl>().update();
 
-      Navigator.pop(context);
+      Get.back();
 
       // Show success message
       Get.snackbar(

@@ -6,10 +6,10 @@ class AdminCategorySelector extends StatelessWidget {
   final String selectedCategory;
 
   const AdminCategorySelector({
-    Key? key,
+    super.key,
     required this.onCategorySelected,
     required this.selectedCategory,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

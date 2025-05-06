@@ -102,9 +102,9 @@ class AdminView extends StatelessWidget {
                   // After returning from add item view, refresh the list
                   await admincrl.fetchUserItems();
                 },
-                backgroundColor: AppColors.error, // Consider a different color like deepPurpleAccent
+                backgroundColor: AppColors.error,
+                tooltip: 'إضافة منتج جديد', // Consider a different color like deepPurpleAccent
                 child: const Icon(Icons.add, color: Colors.white, size: 30),
-                tooltip: 'إضافة منتج جديد',
               ),
             );
           },

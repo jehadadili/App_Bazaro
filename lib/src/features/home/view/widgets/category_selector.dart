@@ -1,22 +1,24 @@
-import 'package:bazaro_cs/src/core/style/color.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
+import 'package:bazaro_cs/src/core/style/color.dart';
 
 class CategorySelector extends StatefulWidget {
   final Function(String) onCategorySelected;
   final String selectedCategory;
 
   const CategorySelector({
-    Key? key,
+    super.key,
     required this.onCategorySelected,
     required this.selectedCategory,
-  }) : super(key: key);
+  });
 
   @override
-  _CategorySelectorState createState() => _CategorySelectorState();
+  State<CategorySelector> createState() => _CategorySelectorState();
 }
 
 class _CategorySelectorState extends State<CategorySelector> {
-  final List<String> categories = [
+final List<String> categories = [
     'الكل',
     'إلكترونيات',
     'حلويات',
@@ -24,7 +26,6 @@ class _CategorySelectorState extends State<CategorySelector> {
     'عطور',
     'اكسسوارات',
   ];
-
   @override
   Widget build(BuildContext context) {
     return Container(

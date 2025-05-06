@@ -5,8 +5,6 @@ import 'package:bazaro_cs/src/features/auth/view/forgot_password/widgets/reset_b
 import 'package:bazaro_cs/src/features/auth/view/forgot_password/widgets/text_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
   const ForgetPasswordPage({super.key});

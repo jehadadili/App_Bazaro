@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WhatsAppButton extends StatelessWidget {
@@ -18,7 +19,7 @@ class WhatsAppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _openWatsAppChat(context),
+      onTap: _openWatsAppChat,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
@@ -37,7 +38,7 @@ class WhatsAppButton extends StatelessWidget {
     );
   }
 
-  void _openWatsAppChat(BuildContext context) async {
+  void _openWatsAppChat() async {
     final phone = phoneNumber.replaceAll(RegExp(r'^00'), '');
 
     final message = Uri.encodeComponent('''
@@ -45,16 +46,21 @@ class WhatsAppButton extends StatelessWidget {
 📦 الاسم: $productTitle
 💰 السعر: JOD $productPrice 
 🖼️ صورة المنتج: $imageUrl
-      ''');
+    ''');
 
     final url = Uri.parse("https://wa.me/$phone?text=$message");
 
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('تعذر فتح واتساب')));
+      Get.snackbar(
+        'خطأ',
+        'تعذر فتح واتساب',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2),
+      );
     }
   }
 }

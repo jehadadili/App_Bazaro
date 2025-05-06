@@ -11,11 +11,11 @@ class ProductGridWidget extends StatelessWidget {
   final String selectedCategory;
 
   const ProductGridWidget({
-    Key? key,
+    super.key,
     required this.controller,
     required this.searchQuery,
     required this.selectedCategory,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
